@@ -19,12 +19,27 @@
     >
       <el-table-column align="center" label="ID" width="95">
         <template slot-scope="scope">
-          {{ scope.$index }}
+          {{ scope.row.id }}
         </template>
       </el-table-column>
       <el-table-column label="小区">
         <template slot-scope="scope">
           {{ scope.row.complex }}
+        </template>
+      </el-table-column>
+      <el-table-column label="编号" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.house_number }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="户型" width="160" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.chamber }}室{{ scope.row.hall }}厅{{ scope.row.bathroom }}卫{{ scope.row.kitchen }}厨{{ scope.row.balcony }}阳台</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="楼层" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.floor }}</span>
         </template>
       </el-table-column>
       <el-table-column label="面积" width="110" align="center">
@@ -164,6 +179,14 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label="楼层">
+              <el-input v-model="postForm.floor" placeholder="10/40" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="12">
             <el-form-item label="门牌号">
               <el-col :span="6" class="padding-unset">
                 <el-input v-model="postForm.building" placeholder="楼栋" />
@@ -178,19 +201,38 @@
               </el-col>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="房源编号">
+              <el-input v-model="postForm.house_number" placeholder="H-10000" />
+            </el-form-item>
+          </el-col>
         </el-row>
 
         <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :span="18">
             <el-form-item label="户型">
-              <el-input v-model="postForm.apartment_layout" />
+              <el-col :span="3" class="padding-unset">
+                <el-input v-model="postForm.chamber" placeholder="室" />
+              </el-col>
+              <el-col class="line text-center" :span="1">-</el-col>
+              <el-col :span="3" class="padding-unset">
+                <el-input v-model="postForm.hall" placeholder="厅" />
+              </el-col>
+              <el-col class="line text-center" :span="1">-</el-col>
+              <el-col :span="3" class="padding-unset">
+                <el-input v-model="postForm.bathroom" placeholder="卫" />
+              </el-col>
+              <el-col class="line text-center" :span="1">-</el-col>
+              <el-col :span="3" class="padding-unset">
+                <el-input v-model="postForm.kitchen" placeholder="厨" />
+              </el-col>
+              <el-col class="line text-center" :span="1">-</el-col>
+              <el-col :span="3" class="padding-unset">
+                <el-input v-model="postForm.balcony" placeholder="阳台" />
+              </el-col>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="年代">
-              <el-input v-model="postForm.year" />
-            </el-form-item>
-          </el-col>
+          <el-col :span="6"/>
         </el-row>
 
         <el-row :gutter="20">
@@ -225,11 +267,15 @@
 
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="税费">
-              <el-input v-model="postForm.duty" />
+            <el-form-item label="年代">
+              <el-input v-model="postForm.year" placeholder="90" />
             </el-form-item>
           </el-col>
-          <el-col :span="12" />
+          <el-col :span="12">
+            <el-form-item label="税费">
+              <el-input v-model="postForm.duty" placeholder="0.00" />
+            </el-form-item>
+          </el-col>
         </el-row>
 
         <el-form-item label="备注">
@@ -257,16 +303,22 @@ const defaultPostForm = {
   min_price: undefined,
   selling_price: undefined,
   complex: null,
+  floor: null,
   building: null,
   unit: null,
   room: null,
-  apartment_layout: null,
-  year: 0,
-  building_area: null,
-  usable_area: null,
+  chamber: undefined,
+  hall: undefined,
+  bathroom: undefined,
+  kitchen: undefined,
+  balcony: undefined,
+  year: undefined,
+  building_area: undefined,
+  usable_area: undefined,
   decoration: 2,
   direction: [],
-  duty: 0,
+  duty: undefined,
+  house_number: null,
   remark: null
 }
 let that
